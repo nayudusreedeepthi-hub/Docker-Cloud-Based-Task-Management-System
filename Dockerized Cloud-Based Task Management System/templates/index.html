@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Cloud Task Manager</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        header {
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 70%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+        }
+
+        a {
+            text-decoration: none;
+            padding: 7px 10px;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+
+        .complete {
+            background: #16a34a;
+            color: white;
+        }
+
+        .delete {
+            background: #dc2626;
+            color: white;
+        }
+
+        .completed {
+            color: green;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>☁️ Cloud Task Manager</h1>
+
+        <p>Dockerized Cloud Computing Project</p>
+
+    </header>
+
+
+    <div class="container">
+
+
+        <div class="card">
+
+            <h2>Add New Task</h2>
+
+            <form action="/add" method="POST">
+
+                <input type="text" name="title" placeholder="Enter task" required>
+
+                <button type="submit">
+                    Add Task
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>Task List</h2>
+
+            <table>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Task</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+
+                {% for task in tasks %}
+
+                <tr>
+
+                    <td>
+                        {{ task.id }}
+                    </td>
+
+                    <td>
+                        {{ task.title }}
+                    </td>
+
+                    <td>
+
+                        {% if task.status == "Completed" %}
+
+                        <span class="completed">
+                            Completed
+                        </span>
+
+                        {% else %}
+
+                        <span class="pending">
+                            Pending
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        {% if task.status == "Pending" %}
+
+                        <a class="complete" href="/complete/{{ task.id }}">
+                            Complete
+                        </a>
+
+                        {% endif %}
+
+
+                        <a class="delete" href="/delete/{{ task.id }}" onclick="return confirm('Delete this task?')">
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
